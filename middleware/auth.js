@@ -7,7 +7,7 @@ const authenticate = (req, res, next) => {
     const verified = jwt.verify(token, JWT_SECRET);
     req.verifiedUser = verified.user;
     next();
-  } catch (error) {
+  } catch (error) { 
     // console.error("error:", error);
     next();
   }

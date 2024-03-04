@@ -1,5 +1,6 @@
 const { GraphQLString, GraphQLID, GraphQLNonNull } = require("graphql");
-const { User } = require('../models');
+const { User, Post } = require('../models');
+const { PostType, CommentType } = require("./types");
 const { auth, bcrypt } = require("../util");
 
 //mutacion para register (0.1)
@@ -53,7 +54,38 @@ const login = {
       },
 
 };
+
+//mutacion para crear un post (1)
+const createPost = {
+  type: PostType,
+  description: "Crear un nuevo post en el blog",
+  args: {
+    title: { type: new GraphQLNonNull(GraphQLString) },
+    body: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  async resolve(_, args, { verifiedUser }) {
+    if (!verifiedUser) throw new Error("You must be logged in to do that");
+
+    const userFound = await User.findById(verifiedUser._id);
+    if (!userFound) throw new Error("Unauthorized");
+
+    const post = new Post({
+      authorId: verifiedUser._id,
+      title: args.title,
+      body: args.body,
+    });
+
+    return post.save();
+  },
+};
+
+
+
+
+
+
 module.exports = {
     register,
     login,
+    createPost,
 };
