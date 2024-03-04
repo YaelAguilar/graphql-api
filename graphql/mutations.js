@@ -1,7 +1,8 @@
-const { GraphQLString, GraphQLID, GraphQLNonNull } = require('graphql');
+const { GraphQLString, GraphQLID, GraphQLNonNull } = require("graphql");
 const { User } = require('../models');
-const { createJWTToken } = require('../util/auth');
+const { auth, bcrypt } = require("../util");
 
+//mutacion para register (0.1)
 const register = {
     type: GraphQLString,
         description: 'Registrar usuarios',
@@ -25,6 +26,7 @@ const register = {
           },
 };
 
+//mutacion para login (0.2)
 const login = {
     type: GraphQLString,
     description: 'Iniciar Sesion',
