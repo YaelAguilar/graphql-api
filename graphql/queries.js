@@ -26,8 +26,16 @@ const posts = {
     resolve: () => Post.find(),
   };
 
+//query para obtener un posts (4)  
+  const post = {
+    type: PostType,
+    description: "Recupera un solo post",
+    args: { id: { type: GraphQLID } },
+    resolve: (_, { id }) => Post.findById(id),
+  };  
 
 
 
 
-module.exports = { users, user, posts };
+
+module.exports = { users, user, posts, post };
