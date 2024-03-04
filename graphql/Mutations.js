@@ -24,6 +24,32 @@ const register = {
         },
 };
 
+const login = {
+    type: GraphQLString,
+    args: {
+        email: { type:GraphQLString },
+        password: { type:GraphQLString },
+    },
+    async resolve(_, { email, password }) {
+        const user = await User.findOne({ email }).select("+password");
+    
+        if (!user) throw new Error("Invalid Username");
+    
+        const validPassword = await bcrypt.comparePassword(password, user.password);
+    
+        if (!validPassword) throw new Error("Invalid Password");
+    
+        const token = auth.createJWTToken({
+          _id: user._id,
+          email: user.email,
+          displayName: user.displayName,
+        });
+    
+        return token;
+      },
+
+};
 module.exports = {
     register,
+    login,
 };
