@@ -79,6 +79,52 @@ const createPost = {
   },
 };
 
+//mutacion para editar un post (2)
+const updatePost = {
+  type: PostType,
+  description: "se actualizo el post",
+  args: {
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    title: { type: new GraphQLNonNull(GraphQLString) },
+    body: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  async resolve(_, { id, title, body }, { verifiedUser }) {
+    if (!verifiedUser) throw new Error("Unauthorized");
+
+    const postUpdated = await Post.findOneAndUpdate(
+      { _id: id, authorId: verifiedUser._id },
+      { title, body },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!postUpdated) throw new Error("No post for given id");
+
+    return postUpdated;
+  },
+};
+
+//mutacion para eliminar un post (3)
+const deletePost = {
+  type: GraphQLString,
+  description: "Borrar post",
+  args: {
+    postId: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  async resolve(_, args, { verifiedUser }) {
+    const postDeleted = await Post.findOneAndDelete({
+      _id: args.postId,
+      authorId: verifiedUser._id,
+    });
+    if (!postDeleted)
+      throw new Error("No post with given ID Found for the author");
+
+    return "Post deleted";
+  },
+};
+
 
 
 
@@ -88,4 +134,6 @@ module.exports = {
     register,
     login,
     createPost,
+    updatePost,
+    deletePost,
 };
