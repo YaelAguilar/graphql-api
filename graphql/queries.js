@@ -19,9 +19,15 @@ const user = {
     resolve: (_, { id }) => User.findById(id),
   };
   
+//query para obtener lista de posts (3)  
+const posts = {
+    type: new GraphQLList(PostType),
+    description: "Recupera una lista de posts",
+    resolve: () => Post.find(),
+  };
 
 
 
 
 
-module.exports = { users, user };
+module.exports = { users, user, posts };
