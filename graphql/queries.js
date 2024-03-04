@@ -34,8 +34,26 @@ const posts = {
     resolve: (_, { id }) => Post.findById(id),
   };  
 
+//query para obtener lista de comentarios (5)
+const comments = {
+  type: new GraphQLList(CommentType),
+  description: "Recuperada lista de comentarios",
+  resolve: () => Comment.find(),
+};  
+
+//query para obtener un comentario (6)
+const comment = {
+  type: CommentType,
+  description: "Recuperado un comentario",
+  args: {
+    id: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  resolve: (_, { id }) => Comment.findById(id),
+};
 
 
 
 
-module.exports = { users, user, posts, post };
+
+
+module.exports = { users, user, posts, post, comments, comment };

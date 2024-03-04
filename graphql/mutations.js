@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLID, GraphQLNonNull } = require("graphql");
-const { User, Post } = require('../models');
+const { User, Post, Comment } = require('../models');
 const { PostType, CommentType } = require("./types");
 const { auth, bcrypt } = require("../util");
 
@@ -125,6 +125,25 @@ const deletePost = {
   },
 };
 
+//mutacion para crear un comentario en un post (4)
+const addComment = {
+  type: CommentType,
+  description: "Create a new comment for a blog post",
+  args: {
+    comment: { type: new GraphQLNonNull(GraphQLString) },
+    postId: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  resolve(_, { postId, comment }, { verifiedUser }) {
+    const newComment = new Comment({
+      userId: verifiedUser._id,
+      postId,
+      comment,
+    });
+    return newComment.save();
+  },
+};
+
+
 
 
 
@@ -136,4 +155,5 @@ module.exports = {
     createPost,
     updatePost,
     deletePost,
+    addComment,
 };
