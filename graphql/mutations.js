@@ -143,6 +143,37 @@ const addComment = {
   },
 };
 
+//mutacion para actualiza un comentario (5)
+const updateComment = {
+  type: CommentType,
+  description: "Actualizar comentario",
+  args: {
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    comment: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  async resolve(_, { id, comment }, { verifiedUser }) {
+    if (!verifiedUser) throw new Error("UnAuthorized");
+
+    const commentUpdated = await Comment.findOneAndUpdate(
+      {
+        _id: id,
+        userId: verifiedUser._id,
+      },
+      {
+        comment,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!commentUpdated) throw new Error("No comment with the given ID");
+
+    return commentUpdated;
+  },
+};
+
 
 
 
@@ -156,4 +187,5 @@ module.exports = {
     updatePost,
     deletePost,
     addComment,
+    updateComment,
 };
