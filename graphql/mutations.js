@@ -55,7 +55,7 @@ const login = {
 
 };
 
-//mutacion para crear un post (1)
+//mutacion para crear un post (suscription)
 const createPost = {
   type: PostType,
   description: "Crear un nuevo post en el blog",
@@ -79,7 +79,7 @@ const createPost = {
   },
 };
 
-//mutacion para editar un post (2)
+//mutacion para editar un post (1)
 const updatePost = {
   type: PostType,
   description: "se actualizo el post",
@@ -106,7 +106,7 @@ const updatePost = {
   },
 };
 
-//mutacion para eliminar un post (3)
+//mutacion para eliminar un post (2)
 const deletePost = {
   type: GraphQLString,
   description: "Borrar post",
@@ -125,7 +125,7 @@ const deletePost = {
   },
 };
 
-//mutacion para crear un comentario en un post (4)
+//mutacion para crear un comentario en un post (3)
 const addComment = {
   type: CommentType,
   description: "Crea un nuevo comentario",
@@ -143,7 +143,7 @@ const addComment = {
   },
 };
 
-//mutacion para actualiza un comentario (5)
+//mutacion para actualizar un comentario (4)
 const updateComment = {
   type: CommentType,
   description: "Actualizar comentario",
@@ -174,7 +174,7 @@ const updateComment = {
   },
 };
 
-//mutacion para eliminar un comentario (6)
+//mutacion para eliminar un comentario (5)
 const deleteComment = {
   type: GraphQLString,
   description: "Eliminar un comentario",
