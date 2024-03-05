@@ -51,9 +51,4 @@ const comment = {
   resolve: (_, { id }) => Comment.findById(id),
 };
 
-
-
-
-
-
 module.exports = { users, user, posts, post, comments, comment };
