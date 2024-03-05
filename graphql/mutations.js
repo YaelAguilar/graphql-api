@@ -128,7 +128,7 @@ const deletePost = {
 //mutacion para crear un comentario en un post (4)
 const addComment = {
   type: CommentType,
-  description: "Create a new comment for a blog post",
+  description: "Crea un nuevo comentario",
   args: {
     comment: { type: new GraphQLNonNull(GraphQLString) },
     postId: { type: new GraphQLNonNull(GraphQLID) },
