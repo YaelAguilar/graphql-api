@@ -174,11 +174,27 @@ const updateComment = {
   },
 };
 
+//mutacion para eliminar un comentario (6)
+const deleteComment = {
+  type: GraphQLString,
+  description: "Eliminar un comentario",
+  args: {
+    id: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  async resolve(_, { id }, { verifiedUser }) {
+    if (!verifiedUser) throw new Error("Unauthorized");
 
+    const commentDelete = await Comment.findOneAndDelete({
+      _id: id,
+      userId: verifiedUser._id,
+    });
 
+    if (!commentDelete)
+      throw new Error("No comment with the given ID for the user");
 
-
-
+    return "Comment deleted";
+  },
+};
 
 module.exports = {
     register,
@@ -188,4 +204,5 @@ module.exports = {
     deletePost,
     addComment,
     updateComment,
+    deleteComment,
 };
